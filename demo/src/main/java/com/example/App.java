@@ -2,6 +2,7 @@ package com.example;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static final int WIDTH = 1000;
-    private static final int HEIGHT = WIDTH * 9 / 16 + 46;
+    private static final int HEIGHT = WIDTH * 9 / 16 + 84;
 
     private Button sortButton, mergeButton, bubbleButton, heapButton;
     private BorderPane root;
@@ -22,7 +23,7 @@ public class App extends Application {
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         root = new BorderPane();
-        root.setPadding(new Insets(10));
+        root.setPadding(new Insets(0));
         root.setStyle("-fx-background-color: black;");
 
         sortingPane = new Pane();
@@ -41,7 +42,7 @@ public class App extends Application {
         mergeButton.setOnAction(e -> {
             sortingPane.getChildren().clear();
             try {
-                new QuickSort(sortingPane);
+                new MergeSort(sortingPane);
             } catch (InterruptedException ignored) {
             }
         });
@@ -50,7 +51,7 @@ public class App extends Application {
         bubbleButton.setOnAction(e -> {
             sortingPane.getChildren().clear();
             try {
-                new QuickSort(sortingPane);
+                new BubbleSort(sortingPane);
             } catch (InterruptedException ignored) {
             }
         });
@@ -59,21 +60,23 @@ public class App extends Application {
         heapButton.setOnAction(e -> {
             sortingPane.getChildren().clear();
             try {
-                new QuickSort(sortingPane);
+                new HeapSort(sortingPane);
             } catch (InterruptedException ignored) {
             }
         });
 
-        HBox buttonBox = new HBox(10);
+        HBox buttonBox = new HBox(0);
         buttonBox.setPadding(new Insets(10));
+        buttonBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.getChildren().addAll(sortButton, bubbleButton, mergeButton, heapButton);
-        root.setTop(buttonBox);
 
+        root.setTop(buttonBox);
         root.setCenter(sortingPane);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Sorting Visualiser");
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
