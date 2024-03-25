@@ -1,18 +1,16 @@
 package com.example;
-import javafx.application.Application;
+
 import javafx.application.Platform;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class QuickSort extends Application {
+public class QuickSort {
+
     private final int width = 1000, height = 600;
     private final int size = 200;
     private final float barWidth = (float) width / size;
@@ -20,27 +18,19 @@ public class QuickSort extends Application {
     private float[] barHeight = new float[size];
     private int current_index, swap1, swap2;
 
-    @Override
-    public void start(Stage primaryStage) throws InterruptedException {
-        Group root = new Group();
-        Scene scene = new Scene(root, width, height, Color.BLACK);
+    @SuppressWarnings("exports")
+    public QuickSort(Pane sortingPane) throws InterruptedException {
 
-        primaryStage.setTitle("Quick Sort Visualiser");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-        initBars(root);
+        initBars(sortingPane);
         // shuffleBars();
-        // I call shuffleBars as the first line of quickSort() why the visualisation works when called from there and not here, idk but it does. Ideally it would be called here tho
+        // I call shuffleBars as the first line of quickSort() Ideally it would be called here tho
 
         Thread sorterThread = new Thread(this::quickSort);
         sorterThread.setDaemon(true);
-        
         sorterThread.start();
     }
 
-    private void initBars(Group root) throws InterruptedException {
+    private void initBars(Pane sortingPane) throws InterruptedException {
         float interval = (float) height / size;
         for (int i = 0; i < size; i++) {
             barHeight[i] = i * interval;
@@ -49,25 +39,13 @@ public class QuickSort extends Application {
             Rectangle bar = new Rectangle(i * barWidth, height - barHeight[i], barWidth, barHeight[i]);
             bar.setFill(Color.GREEN);
             bars.add(bar);
-            root.getChildren().add(bar);
+            sortingPane.getChildren().add(bar);
         }
         
         Platform.runLater(this::repaintBars);
         Thread.sleep(100);
     }
 
-    private void shuffleBars() throws InterruptedException {
-        
-        for (int i = size - 1; i >= 1; i--) {
-            int rand = new Random().nextInt(i + 1);
-            float temp = barHeight[i];
-            barHeight[i] = barHeight[rand];
-            barHeight[rand] = temp;
-            Thread.sleep(10);
-            Platform.runLater(this::repaintBars);
-    
-        }
-    }
 
     private void quickSort() {
         try {
@@ -112,6 +90,19 @@ public class QuickSort extends Application {
         return (i + 1);
     }
 
+    private void shuffleBars() throws InterruptedException {
+        
+        for (int i = size - 1; i >= 1; i--) {
+            int rand = new Random().nextInt(i + 1);
+            float temp = barHeight[i];
+            barHeight[i] = barHeight[rand];
+            barHeight[rand] = temp;
+            Thread.sleep(10);
+            Platform.runLater(this::repaintBars);
+    
+        }
+    }
+
     private void repaintBars() {
         for (int i = 0; i < size; i++) {
             Rectangle bar = bars.get(i);
@@ -126,9 +117,5 @@ public class QuickSort extends Application {
             bar.setY(height - barHeight[i]);
             bar.setFill(color);
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
