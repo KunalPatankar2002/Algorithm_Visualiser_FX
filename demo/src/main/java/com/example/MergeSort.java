@@ -17,6 +17,7 @@ public class MergeSort {
     private final List<Rectangle> bars = new ArrayList<>();
     private float[] barHeight = new float[size];
     private int current_index, swap1, swap2;
+    private Color barColour = Color.BLUE;
 
     @SuppressWarnings("exports")
     public MergeSort(Pane sortingPane) throws InterruptedException {
@@ -33,11 +34,11 @@ public class MergeSort {
     private void initBars(Pane sortingPane) throws InterruptedException {
         float interval = (float) height / size;
         for (int i = 0; i < size; i++) {
-            barHeight[i] = i * interval;
+            barHeight[i] = (i+1) * interval;
         }
         for (int i = 0; i < size; i++) {
             Rectangle bar = new Rectangle(i * barWidth, height - barHeight[i], barWidth, barHeight[i]);
-            bar.setFill(Color.BLUE);
+            bar.setFill(barColour);
             bars.add(bar);
             sortingPane.getChildren().add(bar);
         }
@@ -126,7 +127,7 @@ public class MergeSort {
     private void repaintBars() {
         for (int i = 0; i < size; i++) {
             Rectangle bar = bars.get(i);
-            Color color = Color.GREEN;
+            Color color = barColour;
             if (i == current_index)
                 color = Color.WHITE;
             else if (i == swap1)

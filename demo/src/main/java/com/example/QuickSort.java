@@ -33,7 +33,7 @@ public class QuickSort {
     private void initBars(Pane sortingPane) throws InterruptedException {
         float interval = (float) height / size;
         for (int i = 0; i < size; i++) {
-            barHeight[i] = i * interval;
+            barHeight[i] = (i+1) * interval;
         }
         for (int i = 0; i < size; i++) {
             Rectangle bar = new Rectangle(i * barWidth, height - barHeight[i], barWidth, barHeight[i]);

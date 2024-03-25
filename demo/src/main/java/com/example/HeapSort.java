@@ -17,14 +17,13 @@ public class HeapSort {
     private final List<Rectangle> bars = new ArrayList<>();
     private float[] barHeight = new float[size];
     private int current_index, swap1, swap2;
-
+    private Color barColour = Color.ORANGE;
     @SuppressWarnings("exports")
     public HeapSort(Pane sortingPane) throws InterruptedException {
 
         initBars(sortingPane);
         // shuffleBars();
-        // I call shuffleBars as the first line of heapSort() Ideally it would be called
-        // here tho
+        // I call shuffleBars as the first line of heapSort() Ideally it would be called here tho
 
         Thread sorterThread = new Thread(this::heapSort);
         sorterThread.setDaemon(true);
@@ -34,34 +33,35 @@ public class HeapSort {
     private void initBars(Pane sortingPane) throws InterruptedException {
         float interval = (float) height / size;
         for (int i = 0; i < size; i++) {
-            barHeight[i] = i * interval;
+            barHeight[i] = (i+1) * interval;
         }
         for (int i = 0; i < size; i++) {
             Rectangle bar = new Rectangle(i * barWidth, height - barHeight[i], barWidth, barHeight[i]);
-            bar.setFill(Color.ORANGE);
+            bar.setFill(barColour);
             bars.add(bar);
             sortingPane.getChildren().add(bar);
         }
-
+        
         Platform.runLater(this::repaintBars);
         Thread.sleep(100);
     }
+
 
     private void max_heapify(float[] barHeight, int size, int i) throws InterruptedException {
 
         int l = 2 * i + 1;
         int r = 2 * i + 2;
-
+        
         int largest = i;
-
+    
         if (l < size && barHeight[l] > barHeight[i]) {
             largest = l;
         }
-
+    
         if (r < size && barHeight[r] > barHeight[largest]) {
             largest = r;
         }
-
+    
         if (largest != i) {
             // swap elements
             float temp = barHeight[i];
@@ -74,23 +74,21 @@ public class HeapSort {
             max_heapify(barHeight, size, largest);
         }
     }
-
+    
     private void build_max_heap(float[] barHeight) throws InterruptedException {
         int size = barHeight.length;
-
+    
         for (int i = size / 2 - 1; i >= 0; i--) {
             max_heapify(barHeight, size, i);
         }
     }
-
-    private void heapSort() {
+    
+    private void heapSort(){
         try {
             shuffleBars();
             heapSort(barHeight);
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException e) {}
     }
-
     private void heapSort(float[] barHeight) throws InterruptedException {
         build_max_heap(barHeight);
         for (int i = barHeight.length - 1; i >= 0; i--) {
@@ -102,13 +100,14 @@ public class HeapSort {
             swap2 = 0;
             Thread.sleep(10);
             Platform.runLater(this::repaintBars);
-
+    
             max_heapify(barHeight, i, 0);
         }
     }
+    
 
     private void shuffleBars() throws InterruptedException {
-
+        
         for (int i = size - 1; i >= 1; i--) {
             int rand = new Random().nextInt(i + 1);
             float temp = barHeight[i];
@@ -116,14 +115,14 @@ public class HeapSort {
             barHeight[rand] = temp;
             Thread.sleep(10);
             Platform.runLater(this::repaintBars);
-
+    
         }
     }
 
     private void repaintBars() {
         for (int i = 0; i < size; i++) {
             Rectangle bar = bars.get(i);
-            Color color = Color.GREEN;
+            Color color = barColour;
             if (i == current_index)
                 color = Color.WHITE;
             else if (i == swap1)
