@@ -62,3 +62,5 @@ Contributions to SortingVisualiser are welcome! If you'd like to contribute, ple
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Create a new Pull Request.
 
+## Note
+This project has also been implemented using java swing which can be found [here](https://github.com/KunalPatankar2002/Algorithm_Visualiser_Swing).
