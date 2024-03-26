@@ -47,6 +47,7 @@ SortingVisualiser currently supports the following sorting algorithms:
 |      ├── tools/
 |      |      └── warp-packer,exe
 |      └── pom.xml
+├── LICENSE.md
 └── README.md
 ```
 
