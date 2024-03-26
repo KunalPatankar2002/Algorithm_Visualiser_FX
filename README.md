@@ -1,6 +1,6 @@
 # SortingVisualiser
 
-SortingVisualiser is a Java package that provides a simple graphical user interface for visualizing various sorting algorithms.
+SortingVisualiser is a Java project that provides a simple graphical user interface for visualizing various sorting algorithms.
 
 ## Usage
 
